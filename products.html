@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Capsule Collection — 6 Curated Lipsticks | Shinnawi by Sona</title>
+  <meta name="description" content="Shop the exclusive 6-piece lipstick archive by Shinnawi by Sona. Featuring Velvet Dahlia, Silk Petal, Sienna Dusk, Rouge Royale, Amber Mirage, and Midnight Wine.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💄</text></svg>">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-content">
+      <span>Complimentary Worldwide Signature Courier on Orders Over $75</span>
+      <span class="announcement-dot"></span>
+      <span>Handcrafted Botanical Formulas</span>
+      <span class="announcement-dot"></span>
+      <span>Gift-Boxed with Sona's Wax Seal</span>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <button class="menu-toggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a href="index.html" class="nav-brand">
+        <span class="brand-title">Shinnawi</span>
+        <span class="brand-subtitle">by Sona</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link active">The 6 Lipsticks</a></li>
+          <li><a href="index.html#about" class="nav-link">Story &amp; Sona</a></li>
+          <li><a href="contact.html" class="nav-link">Concierge &amp; Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="nav-action-btn" onclick="openCartDrawer()" title="Shopping Bag" aria-label="Shopping Bag">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Catalog Hero -->
+  <section class="catalog-hero">
+    <div class="container">
+      <span class="eyebrow">The Complete Collection</span>
+      <h1 class="section-title">Six Icons. Infinite Expression.</h1>
+      <p class="section-subtitle">
+        Every shade formulated by Sona to embody modern couture elegance. Featuring weightless velvet textures, long-wearing clean pigments, and sculptural weighted cases.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter & Sort Toolbar -->
+  <div class="catalog-toolbar">
+    <div class="container toolbar-inner">
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="all">All 6 Shades</button>
+        <button class="filter-pill" data-filter="velvet matte">Velvet Matte (4)</button>
+        <button class="filter-pill" data-filter="satin sheen">Satin Sheen (1)</button>
+        <button class="filter-pill" data-filter="luminous satin">Luminous Satin (1)</button>
+      </div>
+
+      <div class="sort-select-wrapper">
+        <label for="sortSelect">Sort By:</label>
+        <select id="sortSelect" class="custom-select">
+          <option value="featured">Featured Order</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="name">Alphabetical</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Catalog Grid -->
+  <section class="products-section" style="padding-top: 3.5rem;">
+    <div class="container">
+      <div class="products-grid" id="productsCatalogGrid">
+        <!-- Rendered dynamically by app.js with full fallback in script -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Shade Comparison Matrix -->
+  <section class="shade-guide-section" id="guide">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Formulation Chart</span>
+        <h2 class="section-title">The Shade &amp; Undertone Matrix</h2>
+        <p class="section-subtitle">
+          Find your ideal match among Sona's 6 signature shades according to undertone, intensity, and recommended occasions.
+        </p>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="shade-table">
+          <thead>
+            <tr>
+              <th>Lipstick</th>
+              <th>Shade &amp; Finish</th>
+              <th>Undertone</th>
+              <th>Flattering Skin Tones</th>
+              <th>Key Botanical Oil</th>
+              <th>Price</th>
+              <th>Direct Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="swatch-circle" style="background-color: #5D1D34;"></span>
+                  <strong>Velvet Dahlia</strong>
+                </div>
+              </td>
+              <td>Deep Plum Berry • Velvet Matte</td>
+              <td>Cool Berry</td>
+              <td>Fair, Medium, Olive, Deep</td>
+              <td>Camellia Seed Oil</td>
+              <td><strong>$34.00</strong></td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('velvet-dahlia')">Add to Bag</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="swatch-circle" style="background-color: #BD7677;"></span>
+                  <strong>Silk Petal</strong>
+                </div>
+              </td>
+              <td>Soft Warm Rose Nude • Satin Sheen</td>
+              <td>Neutral Rose</td>
+              <td>Universal (All complexions)</td>
+              <td>Apricot Kernel &amp; Shea</td>
+              <td><strong>$32.00</strong></td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('silk-petal')">Add to Bag</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="swatch-circle" style="background-color: #A3513B;"></span>
+                  <strong>Sienna Dusk</strong>
+                </div>
+              </td>
+              <td>Spiced Terracotta • Velvet Matte</td>
+              <td>Warm Golden Earth</td>
+              <td>Warm, Golden, Olive, Rich Dark</td>
+              <td>Marula &amp; Pomegranate</td>
+              <td><strong>$34.00</strong></td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('sienna-dusk')">Add to Bag</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="swatch-circle" style="background-color: #9E0E25;"></span>
+                  <strong>Rouge Royale</strong>
+                </div>
+              </td>
+              <td>Parisian Crimson • Velvet Matte</td>
+              <td>True Blue-Red (Teeth whitening)</td>
+              <td>Universal Statement</td>
+              <td>Organic Argan Oil</td>
+              <td><strong>$36.00</strong></td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('rouge-royale')">Add to Bag</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="swatch-circle" style="background-color: #C27E58;"></span>
+                  <strong>Amber Mirage</strong>
+                </div>
+              </td>
+              <td>Honey Caramel • Luminous Satin</td>
+              <td>Warm Honey Nude</td>
+              <td>Fair to Medium Golden, Tan</td>
+              <td>Golden Jojoba &amp; Cacao</td>
+              <td><strong>$32.00</strong></td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('amber-mirage')">Add to Bag</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="swatch-circle" style="background-color: #41131E;"></span>
+                  <strong>Midnight Wine</strong>
+                </div>
+              </td>
+              <td>Blackened Burgundy • Velvet Matte</td>
+              <td>Deep Cool Noir</td>
+              <td>Medium, Olive, Deep &amp; Ebony</td>
+              <td>Blackcurrant Seed Oil</td>
+              <td><strong>$36.00</strong></td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('midnight-wine')">Add to Bag</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Application Ritual -->
+  <section class="ritual-section" id="ritual">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">The Art of Wear</span>
+        <h2 class="section-title">Sona’s 3-Step Lip Ritual</h2>
+        <p class="section-subtitle">
+          How to achieve 12-hour plush velvet comfort and clean editorial contours.
+        </p>
+      </div>
+
+      <div class="ritual-grid">
+        <div class="ritual-step-card">
+          <div class="step-num">01</div>
+          <h3 class="step-title">Condition &amp; Blot</h3>
+          <p class="step-desc">
+            Begin with clean, smooth lips. Dab a whisper of balm or face oil, allow 2 minutes to soak in, then gently blot excess moisture with tissue for optimal pigment adhesion.
+          </p>
+        </div>
+
+        <div class="ritual-step-card">
+          <div class="step-num">02</div>
+          <h3 class="step-title">Sculpt the Arch</h3>
+          <p class="step-desc">
+            Use the angled, teardrop-shaped tip of your Shinnawi lipstick bullet to precisely define the cupid's bow and lower lip perimeter without requiring lip liner.
+          </p>
+        </div>
+
+        <div class="ritual-step-card">
+          <div class="step-num">03</div>
+          <h3 class="step-title">Glide &amp; Press</h3>
+          <p class="step-desc">
+            Glide the flat facet across your lips in one smooth stroke. Gently press your lips together to activate the heat-responsive botanical oils for a weightless, cashmere cloud feel.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="brand-title">Shinnawi</span>
+        <div class="brand-subtitle">by Sona</div>
+        <p class="footer-tagline">
+          Haute cosmetics formulated with French botanicals, Italian mineral pigments, and uncompromising luxury.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">The Collection</h4>
+        <ul class="footer-links">
+          <li><a href="products.html" class="footer-link">All 6 Lipsticks</a></li>
+          <li><a href="#guide" class="footer-link">Shade Matrix</a></li>
+          <li><a href="#ritual" class="footer-link">The Lip Ritual</a></li>
+          <li><a href="index.html#shade-atelier" class="footer-link">Interactive Atelier</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Client Care</h4>
+        <ul class="footer-links">
+          <li><a href="contact.html" class="footer-link">Bespoke Concierge</a></li>
+          <li><a href="contact.html#faq" class="footer-link">Shipping &amp; Returns</a></li>
+          <li><a href="contact.html" class="footer-link">Virtual Shade Match</a></li>
+          <li><a href="contact.html" class="footer-link">Press &amp; Stockists</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Boutique Atelier</h4>
+        <p style="font-size: 0.82rem; line-height: 1.7; color: #A39D94;">
+          Private consultations by appointment.<br>
+          contact@shinnawi.com<br>
+          Paris • Beverly Hills • Yerevan
+        </p>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>&copy; 2026 Shinnawi by Sona. All rights reserved. Crafted with clean passion.</div>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+        <a href="#" class="footer-link">Ethics &amp; Ingredients</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Slide-out Shopping Bag Drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCartDrawer()"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag Drawer">
+    <div class="cart-header">
+      <div class="cart-header-title">Your Bag (<span class="cart-count">0</span>)</div>
+      <button class="cart-close-btn" onclick="closeCartDrawer()" aria-label="Close Bag">✕</button>
+    </div>
+
+    <div class="shipping-meter">
+      <div id="shippingMeterText">Add $75 for complimentary signature courier</div>
+      <div class="shipping-progress-track">
+        <div class="shipping-progress-bar" id="shippingProgressBar"></div>
+      </div>
+    </div>
+
+    <div class="cart-items-container" id="cartItemsContainer"></div>
+
+    <div class="cart-empty-state" id="cartEmptyState">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      <p>Your shopping bag is currently empty.</p>
+    </div>
+
+    <div class="cart-footer" id="cartFooter" style="display: none;">
+      <div class="cart-summary-line">
+        <span>Estimated Shipping</span>
+        <span style="color: var(--gold-dark); font-weight: 500;">Complimentary over $75</span>
+      </div>
+      <div class="cart-summary-line total">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">$0.00</span>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="simulateCheckout()">Proceed to Checkout</button>
+      <p style="font-size: 0.72rem; text-align: center; color: var(--text-muted); margin-top: 0.75rem;">
+        🔒 Encrypted Checkout • Complimentary Gift Wrapping
+      </p>
+    </div>
+  </aside>
+
+  <!-- Quick View Modal -->
+  <div class="modal-overlay" id="quickViewModal" onclick="if(event.target === this) closeQuickView()">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeQuickView()" aria-label="Close modal">✕</button>
+      <div id="quickViewBody"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
