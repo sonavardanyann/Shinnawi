@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You for Your Order — Shinnawi by Sona</title>
+  <meta name="description" content="Thank you for your purchase from Shinnawi by Sona. Your artisanal lipsticks are being carefully hand-boxed.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💄</text></svg>">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-title">Shinnawi</span>
+        <span class="brand-subtitle">by Sona</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">The 6 Lipsticks</a></li>
+          <li><a href="contact.html" class="nav-link">Concierge</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Success Content -->
+  <main style="padding: 6rem 0; min-height: 70vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 680px; text-align: center;">
+      <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(197, 157, 74, 0.15); border: 1px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--gold-dark); font-size: 2rem;">
+        ✓
+      </div>
+
+      <span class="eyebrow">Payment Received • Order Confirmed</span>
+      <h1 class="section-title" style="margin-bottom: 1.25rem;">Artistry On Its Way.</h1>
+      
+      <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;">
+        Thank you for welcoming <strong>Shinnawi by Sona</strong> into your daily ritual. Your order has been securely processed via Stripe. Sona and the atelier team are now hand-inspecting your lipsticks, sealing them in our signature gold-embossed keepsake box, and preparing your shipment.
+      </p>
+
+      <div style="background: #FFF; border: 1px solid var(--border-light); border-radius: 8px; padding: 2rem; margin-bottom: 2.5rem; text-align: left; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-light); padding-bottom: 1rem; margin-bottom: 1rem;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Order Reference</span>
+          <strong id="orderRefNum" style="font-family: var(--font-serif); color: var(--text-primary);">SH-2026-CONFIRMED</strong>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.9rem;">
+          <span>Courier:</span>
+          <strong>Complimentary Expedited Courier</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+          <span>Tracking:</span>
+          <span style="color: var(--gold-dark);">Sent via email upon dispatch (24h)</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="products.html" class="btn btn-primary">Return to Collection</a>
+        <a href="contact.html" class="btn btn-secondary">Contact Sona's Concierge</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border-top: none;">
+      <div>&copy; 2026 Shinnawi by Sona. All rights reserved. Securely powered by Stripe.</div>
+      <a href="index.html" class="footer-link">Back to Home</a>
+    </div>
+  </footer>
+
+  <script>
+    // Clear bag upon completed payment
+    try {
+      localStorage.removeItem('shinnawi_cart');
+    } catch(e) {}
+    
+    // Generate order reference
+    const rand = Math.floor(100000 + Math.random() * 900000);
+    const ref = document.getElementById('orderRefNum');
+    if (ref) ref.textContent = `SH-${rand}`;
+  </script>
+</body>
+</html>

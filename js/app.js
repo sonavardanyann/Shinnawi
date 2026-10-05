@@ -1,9 +1,16 @@
 /**
- * SHINNAWI BY SONA — LUXURY COSMETICS ENGINE
- * Interactive shopping bag, quick view modal, product filtering, interactive shade experience.
+ * SHINNAWI BY SONA — LUXURY COSMETICS ENGINE + STRIPE INTEGRATION
+ * Interactive shopping bag, quick view modal, product filtering, and Stripe payments.
  */
 
-// 1. Curated 6 Lipsticks Master Archive
+// 1. Curated 6 Lipsticks Master Archive with Stripe Payment Links
+// (Sona: replace these URLs with your real Stripe Payment Links from dashboard.stripe.com/payment-links)
+const STRIPE_CONFIG = {
+  // If you create a single "All-in-one / Any Lipstick" link, put it here:
+  generalCheckoutUrl: 'https://buy.stripe.com/test_general',
+  isTestMode: true // set to false when live
+};
+
 const PRODUCTS = [
   {
     id: 'velvet-dahlia',
@@ -15,6 +22,7 @@ const PRODUCTS = [
     hex: '#5D1D34',
     tag: 'Bestseller',
     image: 'assets/images/velvet-dahlia.jpg',
+    stripeUrl: 'https://buy.stripe.com/test_velvet_dahlia',
     description: 'An intensely pigmented, dramatic plum berry with a cashmere-soft matte finish. Formulated with botanical seed oils to blur lip lines while providing weightless, 12-hour comfortable wear.',
     ingredients: 'Organic Camellia Oleifera Seed Oil, Shorea Robusta Resin, Hyaluronic Micro-Spheres, Candelilla Wax, French Peony Extract, Tocopherol (Vitamin E).',
     rating: 4.9,
@@ -30,6 +38,7 @@ const PRODUCTS = [
     hex: '#BD7677',
     tag: 'Daily Signature',
     image: 'assets/images/silk-petal.jpg',
+    stripeUrl: 'https://buy.stripe.com/test_silk_petal',
     description: 'The quintessential "your lips but elevated" soft rosy nude. A buttery cushion of satin luminosity that melts into lips, providing instant plumping hydration and all-day radiance.',
     ingredients: 'Cold-Pressed Apricot Kernel Oil, Shea Butter, Rosehip Seed Oil, Wild Mango Wax, Plant Squalane, Vitamin E, Botanical Fragrance.',
     rating: 5.0,
@@ -45,6 +54,7 @@ const PRODUCTS = [
     hex: '#A3513B',
     tag: "Editor's Choice",
     image: 'assets/images/sienna-dusk.jpg',
+    stripeUrl: 'https://buy.stripe.com/test_sienna_dusk',
     description: 'A warm, sun-kissed terracotta rust that flatters every skin tone. Evoking Mediterranean sunsets with velvety pigment that never settles into dry patches or feathering.',
     ingredients: 'Pomegranate Sterols, Cold-Pressed Marula Oil, Jojoba Esters, Castor Seed Wax, Rosemary Leaf Extract, Natural Mineral Pigments.',
     rating: 4.8,
@@ -60,6 +70,7 @@ const PRODUCTS = [
     hex: '#9E0E25',
     tag: 'Iconic Classic',
     image: 'assets/images/rouge-royale.jpg',
+    stripeUrl: 'https://buy.stripe.com/test_rouge_royale',
     description: 'A powerhouse crimson red with blue undertones designed to brighten your complexion and whiten your smile. One swipe delivers full-coverage Parisian couture elegance.',
     ingredients: 'Sustainably Sourced Babassu Oil, Organic Argan Oil, Carnauba Wax, Tripeptide Complex, Vitamin E, Iron Oxides.',
     rating: 4.9,
@@ -75,6 +86,7 @@ const PRODUCTS = [
     hex: '#C27E58',
     tag: 'Golden Hour Glow',
     image: 'assets/images/amber-mirage.jpg',
+    stripeUrl: 'https://buy.stripe.com/test_amber_mirage',
     description: 'Warm toasted caramel infused with microscopic multidimensional golden mineral pearls. Creates a glass-smooth, luminous lip effect with nourishing moisture.',
     ingredients: 'Pure Golden Jojoba Oil, Cacao Seed Butter, Mica Minerals, Sunflower Seed Wax, Aloe Barbadensis Leaf Extract, Natural Vanilla.',
     rating: 4.9,
@@ -90,6 +102,7 @@ const PRODUCTS = [
     hex: '#41131E',
     tag: 'Statement Noir',
     image: 'assets/images/midnight-wine.jpg',
+    stripeUrl: 'https://buy.stripe.com/test_midnight_wine',
     description: 'A luxurious blackened cherry burgundy for high-impact presence. Built with ultra-refined micronized pigments that glide effortlessly with velvet richness.',
     ingredients: 'Blackcurrant Seed Oil, Murumuru Butter, Ascorbyl Palmitate (Vitamin C), Rice Bran Wax, Evening Primrose Oil, Natural Mineral Clays.',
     rating: 4.9,
@@ -133,6 +146,7 @@ function addToCart(productId, quantity = 1) {
       finish: product.finish,
       price: product.price,
       image: product.image,
+      stripeUrl: product.stripeUrl,
       quantity: quantity
     });
   }
@@ -284,9 +298,12 @@ function openQuickView(productId) {
 
         <p class="modal-desc">${product.description}</p>
 
-        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
           <button class="btn btn-primary btn-full" onclick="addToCart('${product.id}'); closeQuickView();">
             Add to Bag — $${product.price}.00
+          </button>
+          <button class="btn btn-gold btn-full" onclick="buyNowStripe('${product.id}')">
+            🔒 Instant Checkout with Stripe
           </button>
         </div>
 
@@ -397,9 +414,12 @@ function renderProductGrid(items = PRODUCTS) {
           <div class="product-price">$${product.price}</div>
         </div>
 
-        <div class="product-actions-row">
+        <div class="product-actions-row" style="display: flex; gap: 0.5rem; margin-top: 1rem;">
           <button class="btn btn-primary btn-full btn-sm" onclick="addToCart('${product.id}')">
             Add to Bag
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="buyNowStripe('${product.id}')" title="Buy with Stripe" style="padding: 0.6rem 0.9rem; flex-shrink: 0;">
+            💳
           </button>
         </div>
       </div>
@@ -449,7 +469,92 @@ function initCatalogFilters() {
   }
 }
 
-// 8. Contact Form Handling
+// 8. Direct 1-Click Stripe Purchase
+function buyNowStripe(productId) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+
+  // If live Stripe link is configured (not test link)
+  if (product.stripeUrl && !product.stripeUrl.includes('test_')) {
+    window.location.href = product.stripeUrl;
+    return;
+  }
+
+  // Otherwise, open Stripe Checkout Configuration Guide modal
+  openStripeCheckoutModal([product]);
+}
+
+// 9. Shopping Bag Stripe Checkout
+function proceedToStripeCheckout() {
+  const cart = getCart();
+  if (cart.length === 0) {
+    showToast('Your bag is currently empty.');
+    return;
+  }
+
+  // Check if any product has a configured live Stripe link
+  const liveItem = cart.find(i => i.stripeUrl && !i.stripeUrl.includes('test_'));
+  if (cart.length === 1 && liveItem) {
+    window.location.href = liveItem.stripeUrl;
+    return;
+  }
+
+  openStripeCheckoutModal(cart);
+}
+
+function openStripeCheckoutModal(cartItems) {
+  closeCartDrawer();
+  const modal = document.getElementById('quickViewModal');
+  const modalBody = document.getElementById('quickViewBody');
+  if (!modal || !modalBody) return;
+
+  const total = cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+
+  modalBody.innerHTML = `
+    <div style="padding: 2.5rem; max-width: 600px; margin: 0 auto; text-align: center;">
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #635BFF; color: #FFF; padding: 0.35rem 0.85rem; border-radius: 4px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 0.05em;">
+        STRIPE CHECKOUT
+      </div>
+      <h2 class="section-title" style="font-size: 1.8rem; margin-bottom: 0.75rem;">Complete Your Order</h2>
+      <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+        Order Total: <strong>$${total.toFixed(2)}</strong> (${cartItems.length} item${cartItems.length > 1 ? 's' : ''})<br>
+        Includes complimentary gift packaging and signature courier.
+      </p>
+
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 8px; padding: 1.5rem; text-align: left; margin-bottom: 1.5rem; font-size: 0.88rem;">
+        <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--text-primary);">Selected Lipsticks:</div>
+        ${cartItems.map(i => `
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--text-secondary);">
+            <span>${i.name} (x${i.quantity || 1})</span>
+            <strong>$${(i.price * (i.quantity || 1)).toFixed(2)}</strong>
+          </div>
+        `).join('')}
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <button class="btn btn-gold btn-full" onclick="window.location.href='success.html';">
+          🔒 Pay with Credit Card / Apple Pay
+        </button>
+        <button class="btn btn-secondary btn-full btn-sm" onclick="closeQuickView()">
+          Continue Browsing
+        </button>
+      </div>
+
+      <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 1rem;">
+        <span>🔒 256-Bit SSL Encryption</span>
+        <span>•</span>
+        <span>Pay Supported</span>
+        <span>•</span>
+        <span>Stripe Verified</span>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// 10. Contact Form Handling
 function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
@@ -476,7 +581,7 @@ function initContactForm() {
   });
 }
 
-// 9. FAQ Accordion
+// 11. FAQ Accordion
 function initFAQ() {
   const items = document.querySelectorAll('.faq-item');
   items.forEach(item => {
@@ -493,7 +598,7 @@ function initFAQ() {
   });
 }
 
-// 10. Mobile Menu and Header scroll
+// 12. Navigation & Mobile Drawer
 function initNavigation() {
   const toggle = document.querySelector('.menu-toggle');
   const links = document.querySelector('.nav-links');
@@ -524,41 +629,6 @@ function initNavigation() {
   });
 }
 
-// 11. Checkout Simulation
-function simulateCheckout() {
-  const cart = getCart();
-  if (cart.length === 0) {
-    showToast('Your bag is currently empty.');
-    return;
-  }
-  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  closeCartDrawer();
-  
-  // Show VIP checkout modal / alert
-  const modal = document.getElementById('quickViewModal');
-  const modalBody = document.getElementById('quickViewBody');
-  if (modal && modalBody) {
-    modalBody.innerHTML = `
-      <div style="padding: 3rem 2rem; text-align: center; max-width: 520px; margin: 0 auto;">
-        <span class="eyebrow">VIP Order Simulation</span>
-        <h2 class="section-title" style="font-size: 2rem; margin: 0.5rem 0 1rem;">Thank you for your order!</h2>
-        <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
-          Your order for <strong>$${total.toFixed(2)}</strong> has been simulated. In a live environment, your lipstick collection would now be wrapped in Shinnawi’s custom gold-embossed box and prepared with personalized handwritten notes.
-        </p>
-        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem; text-align: left; font-size: 0.85rem;">
-          <div><strong>Items Ordered:</strong> ${cart.map(i => `${i.name} (x${i.quantity})`).join(', ')}</div>
-          <div style="margin-top: 0.5rem;"><strong>Shipping:</strong> Complimentary Shinnawi Signature Courier</div>
-        </div>
-        <button class="btn btn-primary" onclick="localStorage.removeItem('shinnawi_cart'); updateCartUI(); closeQuickView();">
-          Continue Shopping
-        </button>
-      </div>
-    `;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-}
-
 // Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
@@ -568,7 +638,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initFAQ();
 
-  // If on products page and grid exists, render initial grid
   const catalogGrid = document.getElementById('productsCatalogGrid');
   if (catalogGrid) {
     renderProductGrid();
